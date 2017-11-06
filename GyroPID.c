@@ -33,7 +33,7 @@ float rectifyInput(float input){
 }
 
 //
-float rectifyOutput(float output){ 
+float rectifyOutput(float output){
 	if(output > gyroPID.outputRangeMax) return gyroPID.outputRangeMax;
 	else if (output < gyroPID.outputRangeMin) return gyroPID.outputRangeMin;
 	else return output;
@@ -43,6 +43,22 @@ float rectifyOutput(float output){
 bool isOnTarget(float offset){
 	if(abs(offset) < gyroPID.absoluteTolerance) return true;
 	else return false;
+}
+
+void end(){
+	resetGyro();
+}
+
+void startGyroPID(){
+	gyroPID.isRunning = true;
+}
+
+void stopGyroPID(){
+	gyroPID.isRunning = false;
+}
+
+bool gyroPIDState(){
+	return gyroPID.isRunning;
 }
 
 task turnWithGyro(){
@@ -60,6 +76,10 @@ task turnWithGyro(){
 				motor[gyroPID.leftMasterMotor] = -output;
 				motor[gyroPID.rightMasterMotor] = output;
 			}
+			else{
+				stopGyroPID(); 
+				end(); 
+			}
 		}
 		wait1Msec(25);
 	}
@@ -67,17 +87,5 @@ task turnWithGyro(){
 
 void initGyroPID(){
 	startTask(turnWithGyro);
-}
-
-void startGyroPID(){
-	gyroPID.isRunning = true;
-}
-
-void stopGyroPID(){
-	gyroPID.isRunning = false;
-}
-
-bool gyroPIDState(){
-	return gyroPID.isRunning;
 }
 #endif
