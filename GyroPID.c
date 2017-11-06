@@ -20,7 +20,7 @@ static GyroPID gyroPID;
 static float requestedValue;
 static float currentValue;
 
-//
+// reset gyro
 void resetGyro(){
 	SensorValue[gyroPID.port] = 0;
 }
