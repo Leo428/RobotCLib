@@ -20,17 +20,20 @@ static GyroPID gyroPID;
 static float requestedValue;
 static float currentValue;
 
+//
 void resetGyro(){
 	SensorValue[gyroPID.port] = 0;
 }
 
+//
 float rectifyInput(float input){
 	if(input > gyroPID.inputRangeMax) return gyroPID.inputRangeMax;
 	else if (input < gyroPID.inputRangeMin) return gyroPID.inputRangeMin;
 	else return input;
 }
 
-float rectifyOutput(float output){
+//
+float rectifyOutput(float output){ 
 	if(output > gyroPID.outputRangeMax) return gyroPID.outputRangeMax;
 	else if (output < gyroPID.outputRangeMin) return gyroPID.outputRangeMin;
 	else return output;
